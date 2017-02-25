@@ -11,9 +11,11 @@ public class CharacterController : MonoBehaviour {
 
 	private Rigidbody rigidBody;
 	private Animator anim;
+	private AudioSource audioSource;
 	void Start () {
 		rigidBody = GetComponent<Rigidbody>();
 		anim = GetComponent<Animator>();
+		audioSource = GetComponent<AudioSource>();
 	}
 	
 	void Update () {
@@ -31,17 +33,20 @@ public class CharacterController : MonoBehaviour {
 			//transform.Translate(Vector3.up * jumpHeight * Time.deltaTime, Space.World);
 			if (rigidBody.velocity.y == 0){
 				anim.SetTrigger("Jump");
+				audioSource.PlayOneShot(AudioManager.Instance.Jump);
 				rigidBody.AddForce(Vector3.up * Time.deltaTime * jumpHeight, ForceMode.Impulse);
 				GameManager.Instance.IsJumping = false;
 			}
 		}
 		if(GameManager.Instance.IsBuilding){
 			anim.SetTrigger("Punch");
+			audioSource.PlayOneShot(AudioManager.Instance.Build);
 			ModifyTerrain.Instance.AddBlock(range, (byte) TextureType.rock.GetHashCode());
 			GameManager.Instance.IsBuilding = false;
 		}
 		if(GameManager.Instance.IsPunching){
 			anim.SetTrigger("Punch");
+			audioSource.PlayOneShot(AudioManager.Instance.Hit);
 			ModifyTerrain.Instance.DestroyBlock(range, (byte) TextureType.air.GetHashCode());
 			GameManager.Instance.IsPunching = false;
 		}
