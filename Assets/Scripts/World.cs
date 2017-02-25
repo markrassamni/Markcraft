@@ -13,6 +13,26 @@ public class World : MonoBehaviour {
 	private byte[,,] worldData;
 	private Chunk[,,] chunks;
 
+	public int ChunkSize {
+		get{
+			return chunkSize;
+		}
+	}
+
+	public Chunk[,,] Chunks{
+		get {
+			return chunks;
+		} 
+	}
+
+	public byte[,,] WorldData{
+		get{
+			return worldData;
+		} set{
+			worldData = value;
+		}
+	}
+
 
 	void Start () {
 		worldData = new byte[worldX, worldY, worldZ];
@@ -34,7 +54,7 @@ public class World : MonoBehaviour {
 		for(int x=0; x<chunks.GetLength(0);x++){
 			for(int y=0; y<chunks.GetLength(1);y++){
 				for(int z=0; z<chunks.GetLength(2);z++){
-					GameObject newChunk = Instantiate(chunk, new Vector3(x*chunkSize, y*chunkSize, z*chunkSize), Quaternion.identity);
+					GameObject newChunk = Instantiate(chunk, new Vector3(x*chunkSize - .5f , y*chunkSize + .5f, z*chunkSize - .5f), Quaternion.identity);
 					chunks[x,y,z] = newChunk.GetComponent<Chunk>() as Chunk;
 					chunks[x,y,z].WorldGameObj = gameObject;
 					chunks[x,y,z].ChunkSize = chunkSize;
@@ -47,7 +67,6 @@ public class World : MonoBehaviour {
 				}	
 			}
 		}
-
 	}
 	
 	void Update () {
@@ -67,5 +86,23 @@ public class World : MonoBehaviour {
 			return (byte)TextureType.rock.GetHashCode(); //return rock by default if outside array
 		}
 		return worldData[x,y,z];
+	}
+
+	public void GenerateChunk(int x, int z){
+		for(int y=0; y<chunks.GetLength(1);y++){
+			GameObject newChunk = Instantiate(chunk, new Vector3(x*chunkSize - .5f , y*chunkSize + .5f, z*chunkSize - .5f), Quaternion.identity);
+			chunks[x,y,z] = newChunk.GetComponent<Chunk>() as Chunk;
+			chunks[x,y,z].WorldGameObj = gameObject;
+			chunks[x,y,z].ChunkSize = chunkSize;
+			chunks[x,y,z].ChunkX = x*chunkSize;
+			chunks[x,y,z].ChunkY = y*chunkSize;
+			chunks[x,y,z].ChunkZ = z*chunkSize;
+		}
+	}
+
+	public void DestroyChunk(int x, int z){
+		for(int y=0; y<chunks.GetLength(1);y++){
+			Destroy(chunks[x,y,z].gameObject);
+		}
 	}
 }

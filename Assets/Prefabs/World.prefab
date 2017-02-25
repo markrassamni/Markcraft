@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4095754779454606}
   - component: {fileID: 114864084828638738}
+  - component: {fileID: 114857217692807922}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -40,6 +41,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114857217692807922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1126557764980656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a4ae83f22bc48c485c4607bccb7821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceToLoad: 50
+  distanceToDestroy: 60
 --- !u!114 &114864084828638738
 MonoBehaviour:
   m_ObjectHideFlags: 1

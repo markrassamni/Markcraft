@@ -22,6 +22,7 @@ public class Chunk : MonoBehaviour {
 	private int chunkY;
 	private int chunkZ;
 	private int faceCount;
+	private bool isUpdate = false;
 
 	//Textures
 	private Vector2 grassTop = new Vector2(1,11);
@@ -63,6 +64,13 @@ public class Chunk : MonoBehaviour {
 			worldGameObj = value;
 		}
 	}
+	public bool IsUpdate{
+		get{
+			return isUpdate;
+		} set {
+			isUpdate = value;
+		}
+	}
 
 	void Start () {
 		world = worldGameObj.GetComponent<World>(); //FIX??
@@ -72,8 +80,11 @@ public class Chunk : MonoBehaviour {
 		GenerateMesh();
 	}
 	
-	void Update () {
-		
+	void LateUpdate () {
+		if(isUpdate){
+			GenerateMesh();
+			isUpdate = false;
+		}
 	}
 
 	//called every time surface created
@@ -94,7 +105,7 @@ public class Chunk : MonoBehaviour {
 		faceCount = 0;
 	}
 
-	private void GenerateMesh(){
+	public void GenerateMesh(){
 		for(int x=0; x<chunkSize; x++){
 			for(int y=0; y<chunkSize; y++){
 				for(int z=0; z<chunkSize; z++){
